@@ -1,132 +1,176 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Darček pre Ľuboša</title>
-<style>
-:root{--gold:#ffd700;--bg1:#1e1e2f;--bg2:#0d0d12}
-body {
-font-family: Inter, Arial, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-background: radial-gradient(circle at top, var(--bg1), var(--bg2));
-color: white;
-text-align: center;
-margin: 0;
-padding: 28px;
-}
-h1 {font-size:2.2rem;margin:0;color:var(--gold);text-shadow:0 4px 20px rgba(0,0,0,0.6)}
-h2 {font-size:1.1rem;margin:6px 0 20px;color:#fff;opacity:0.95}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darček pre Ľuboša</title>
+  <style>
+    :root{--gold:#ffd700;--bg1:#1e1e2f;--bg2:#0d0d12}
+    body {
+      font-family: Inter, Arial, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: radial-gradient(circle at top, var(--bg1), var(--bg2));
+      color: white;
+      text-align: center;
+      margin: 0;
+      padding: 28px;
+    }
+    h1 {font-size:2.2rem;margin:0;color:var(--gold);text-shadow:0 4px 20px rgba(0,0,0,0.6)}
+    h2 {font-size:1.1rem;margin:6px 0 20px;color:#fff;opacity:0.95}
 
+    .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;max-width:1100px;margin:0 auto}
+    @media (max-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
+    @media (max-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
+    @media (max-width:480px){.grid{grid-template-columns:repeat(2,1fr)}}
 
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;max-width:1100px;margin:0 auto}
-@media (max-width:900px){.grid{grid-template-columns:repeat(4,1fr)}}
-@media (max-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:480px){.grid{grid-template-columns:repeat(2,1fr)}}
+    .chest{
+      width:110px;height:88px;border-radius:12px;border:2px solid rgba(255,215,0,0.08);background:linear-gradient(180deg,#2b2f3d,#15161a);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,0.6);
+      transition:transform .14s ease, box-shadow .18s ease;
+    }
+    .chest:active{transform:translateY(2px)}
+    .chest:focus{outline:3px solid rgba(255,215,0,0.12);outline-offset:6px}
+    .chest:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.65)}
 
+    .icon{width:84px;height:54px;display:flex;align-items:center;justify-content:center}
+    .icon svg{width:84px;height:54px;display:block}
 
-.chest{
-width:110px;height:88px;border-radius:12px;border:2px solid rgba(255,215,0,0.08);background:linear-gradient(180deg,#2b2f3d,#15161a);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,0.6);
-transition:transform .14s ease, box-shadow .18s ease;
-}
-.chest:active{transform:translateY(2px)}
-.chest:focus{outline:3px solid rgba(255,215,0,0.12);outline-offset:6px}
-.chest:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.65)}
+    /* overlay */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.86);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;pointer-events:none;transition:opacity .22s ease}
+    .overlay.show{opacity:1;pointer-events:auto}
+    .overlay-box{background:linear-gradient(180deg,#14161a,#20232a);padding:28px;border-radius:14px;max-width:780px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.6),0 0 40px rgba(255,215,0,0.06)}
+    .overlay-text{font-size:22px;color:var(--gold);line-height:1.35;text-align:center}
+    .overlay-close{position:absolute;top:18px;right:20px;font-size:26px;color:#fff;cursor:pointer;background:none;border:0}
 
-
-.icon{width:84px;height:54px;display:flex;align-items:center;justify-content:center}
-.icon svg{width:84px;height:54px;display:block}
-
-
-/* overlay */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.86);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000;opacity:0;pointer-events:none;transition:opacity .22s ease}
-.overlay.show{opacity:1;pointer-events:auto}
-.overlay-box{background:linear-gradient(180deg,#14161a,#20232a);padding:28px;border-radius:14px;max-width:780px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.6),0 0 40px rgba(255,215,0,0.06)}
-.overlay-text{font-size:22px;color:var(--gold);line-height:1.35;text-align:center}
-.overlay-close{position:absolute;top:18px;right:20px;font-size:26px;color:#fff;cursor:pointer;background:none;border:0}
-
-
-/* small caption under the grid for instructions */
-.hint{margin-top:18px;color:#bfc7d3;opacity:0.9}
-</style>
+    /* small caption under the grid for instructions */
+    .hint{margin-top:18px;color:#bfc7d3;opacity:0.9}
+  </style>
 </head>
 <body>
-<h1>Všetko najlepšie Ľuboš 🎉</h1>
-<h2>Vyber si jeden darček</h2>
+  <h1>Všetko najlepšie Ľuboš 🎉</h1>
+  <h2>Vyber si jeden darček</h2>
 
+  <div class="grid" id="grid" aria-live="polite"></div>
 
-<div class="grid" id="grid" aria-live="polite"></div>
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <button class="overlay-close" id="overlayClose" aria-label="Zavrieť">✖</button>
+    <div class="overlay-box">
+      <div id="overlayText" class="overlay-text"></div>
+    </div>
+  </div>
 
+  <div class="hint">Klikni na truhlicu. Kliknutím mimo alebo na ✖ ju zavrieš.</div>
 
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
-<button class="overlay-close" id="overlayClose" aria-label="Zavrieť">✖</button>
-<div class="overlay-box">
-<div id="overlayText" class="overlay-text"></div>
-</div>
-</div>
+  <script>
+    const texts = [
+      "Spolujízda v závodním Ferrari",
+      "Spolujízda v elektrickém Porsche Taycan Turbo na okruhu",
+      "Jízda v elektrickém Porsche Taycan Cross Tourismo 4S",
+      "Jízda ve Ferrari 458 Italia na polygonu / na Moravě",
+      "Jízda v Lamborghini Huracán na polygonu",
+      "Jízda v závodních speciálech na polygonu",
+      "Jízda v Porsche 911 Carrera  4 Targa na polygonu",
+      "Jízda v Subaru Impreza WRX STI na polygonu",
+      "Jízda v supersportu na Masarykově závodním okruhu",
+      "Jízda ve formuli na okruhu",
+      "Jízda v Ariel Atom 4.0 na okruhu",
+      "Jízda v 6 generacích Porsche 911 (1969-2019) na okruhu / na okreskách",
+      "Jízda v Lamborghini na Moravě",
+      "Jízda v Mitsubishi EVO Lancer IX",
+      "Jízda v Rally speciálu Mitsubishi Lancer EVO IX",
+      "Jízda ve Fordu Mustang GT 5.0 Shelby paket",
+      "Jízda v Dodge Challenger 5,7 HEMI",
+      "Jízda v Chevrolet Camaro 2015 ZL1 Paket",
+      "Jízda v Chevrolet Camaro (Bumblebee)",
+      "Jízda v Tesle 3 Performance Highland 2024"
+    ];
 
+    const grid = document.getElementById('grid');
+    const overlay = document.getElementById('overlay');
+    const overlayText = document.getElementById('overlayText');
+    const overlayClose = document.getElementById('overlayClose');
 
-<div class="hint">Klikni na truhlicu. Kliknutím mimo alebo na ✖ ju zavrieš.</div>
+    let openedChest = null;
+    let audioCtx = null;
 
+    function playCink(){
+      try{
+        if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const now = audioCtx.currentTime;
 
-<script>
-const texts = [
-"Spolujízda v závodním Ferrari",
-"Spolujízda v elektrickém Porsche Taycan Turbo na okruhu",
-"Jízda v elektrickém Porsche Taycan Cross Tourismo 4S",
-"Jízda ve Ferrari 458 Italia na polygonu / na Moravě",
-"Jízda v Lamborghini Huracán na polygonu",
-"Jízda v závodních speciálech na polygonu",
-"Jízda v Porsche 911 Carrera 4 Targa na polygonu",
-"Jízda v Subaru Impreza WRX STI na polygonu",
-"Jízda v supersportu na Masarykově závodním okruhu",
-"Jízda ve formuli na okruhu",
-"Jízda v Ariel Atom 4.0 na okruhu",
-"Jízda v 6 generacích Porsche 911 (1969-2019) na okruhu / na okreskách",
-"Jízda v Lamborghini na Moravě",
-"Jízda v Mitsubishi EVO Lancer IX",
-"Jízda v Rally speciálu Mitsubishi Lancer EVO IX",
-"Jízda ve Fordu Mustang GT 5.0 Shelby paket",
-"Jízda v Dodge Challenger 5,7 HEMI",
-"Jízda v Chevrolet Camaro 2015 ZL1 Paket",
-"Jízda v Chevrolet Camaro (Bumblebee)",
-"Jízda v Tesle 3 Performance Highland 2024"
-];
+        const o1 = audioCtx.createOscillator(); o1.type = 'sine'; o1.frequency.setValueAtTime(880, now);
+        const o2 = audioCtx.createOscillator(); o2.type = 'triangle'; o2.frequency.setValueAtTime(1320, now);
+        const gain = audioCtx.createGain();
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.15, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
 
+        const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.setValueAtTime(600, now);
 
-const grid = document.getElementById('grid');
-const overlay = document.getElementById('overlay');
-const overlayText = document.getElementById('overlayText');
-const overlayClose = document.getElementById('overlayClose');
+        o1.connect(gain); o2.connect(gain); gain.connect(filter); filter.connect(audioCtx.destination);
 
+        o1.start(now); o2.start(now);
+        o1.stop(now + 1.0); o2.stop(now + 1.0);
+      }catch(e){
+        console.warn('Audio play failed', e);
+      }
+    }
 
-let openedChest = null;
-let audioCtx = null;
+    function makeChestSVG(){
+      return `
+        <svg viewBox="0 0 64 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#fde047" />
+              <stop offset="1" stop-color="#c27c17" />
+            </linearGradient>
+            <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#b9862a" />
+              <stop offset="1" stop-color="#7a4b12" />
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.2" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <rect x="4" y="20" width="56" height="22" rx="3" fill="url(#g1)" stroke="#6b3f05" stroke-width="1.5" filter="url(#glow)"/>
+          <rect x="8" y="6" width="48" height="20" rx="3" fill="url(#g2)" stroke="#6b3f05" stroke-width="1.5"/>
+          <circle cx="32" cy="31" r="3.5" fill="#ffd700" stroke="#6b3f05" stroke-width="1"/>
+        </svg>
+      `;
+    }
 
+    texts.forEach((txt) => {
+      const btn = document.createElement('button');
+      btn.className = 'chest';
+      btn.type = 'button';
+      btn.setAttribute('aria-label', txt);
+      btn.innerHTML = `<div class="icon">${makeChestSVG()}</div>`;
 
-function playCink(){
-try{
-if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-const now = audioCtx.currentTime;
+      btn.addEventListener('click', () => {
+        btn.classList.add('open');
+        openedChest = btn;
+        overlayText.textContent = txt;
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden', 'false');
+        playCink();
+      });
 
+      btn.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); btn.click(); }
+      });
 
-const o1 = audioCtx.createOscillator(); o1.type = 'sine'; o1.frequency.setValueAtTime(880, now);
-const o2 = audioCtx.createOscillator(); o2.type = 'triangle'; o2.frequency.setValueAtTime(1320, now);
-const gain = audioCtx.createGain();
-gain.gain.setValueAtTime(0.0001, now);
-gain.gain.exponentialRampToValueAtTime(0.15, now + 0.01); // 25% původní hlasitosti
-gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.0);
+      grid.appendChild(btn);
+    });
 
+    function closeOverlay(){
+      overlay.classList.remove('show');
+      overlay.setAttribute('aria-hidden', 'true');
+      if(openedChest){ openedChest.classList.remove('open'); openedChest = null; }
+    }
 
-const filter = audioCtx.createBiquadFilter(); filter.type = 'highpass'; filter.frequency.setValueAtTime(600, now);
+    overlayClose.addEventListener('click', closeOverlay);
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeOverlay(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeOverlay(); });
 
-
-o1.connect(gain); o2.connect(gain); gain.connect(filter); filter.connect(audioCtx.destination);
-
-
-o1.start(now); o2.start(now);
-o1.stop(now + 1.0); o2.stop(now + 1.0);
-}catch(e){
-console.warn('Audio play failed', e);
-}
-}
+  </script>
+</body>
 </html>
